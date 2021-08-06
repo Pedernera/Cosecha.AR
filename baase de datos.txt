@@ -1,0 +1,377 @@
+-- phpMyAdmin SQL Dump
+-- version 4.8.5
+-- https://www.phpmyadmin.net/
+--
+-- Servidor: 127.0.0.1
+-- Tiempo de generación: 07-08-2021 a las 01:49:16
+-- Versión del servidor: 10.1.38-MariaDB
+-- Versión de PHP: 7.3.2
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+--
+-- Base de datos: `cosecha.ar2`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `categoria`
+--
+
+CREATE TABLE `categoria` (
+  `id` int(11) NOT NULL,
+  `nombre` varchar(30) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `categoria`
+--
+
+INSERT INTO `categoria` (`id`, `nombre`) VALUES
+(1, 'Labores Culturales'),
+(2, 'Flete y Acarreo'),
+(3, 'Alquiler de Maquinaria');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `comentarios`
+--
+
+CREATE TABLE `comentarios` (
+  `id` int(11) NOT NULL,
+  `idPublicacion` int(11) NOT NULL,
+  `nombreUser` varchar(30) NOT NULL,
+  `texto` varchar(300) NOT NULL,
+  `fechaComentario` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `comentarios`
+--
+
+INSERT INTO `comentarios` (`id`, `idPublicacion`, `nombreUser`, `texto`, `fechaComentario`) VALUES
+(1, 2, 'Federico Pedernera', 'hola muy buen servicio. Gracias', '2021-07-19 20:03:51'),
+(2, 3, 'Sofia Peralta', 'Excelente camión!!', '2021-07-19 20:38:15'),
+(3, 3, 'Luis Suarez', 'Muy buen Producto', '2021-07-20 18:38:45'),
+(4, 3, 'Federico Pedernera', 'Excelente!!', '2021-07-20 18:38:45'),
+(5, 30, 'Federico Pedernera', 'Excelente camion...', '2021-07-20 20:16:53'),
+(6, 22, 'Federico Pedernera', 'Muy buen tractor. Super recomendado...', '2021-07-20 20:22:39'),
+(7, 27, 'Federico Pedernera', 'Necesito sus servicios...', '2021-07-20 21:33:18'),
+(8, 27, 'Federico Pedernera', 'Contácteme cuando pueda por favor', '2021-07-20 21:33:45'),
+(9, 3, 'Nicolas Ortiz', 'Tengo el mismo camión...', '2021-07-20 22:03:50'),
+(10, 3, 'Pepe Cruz', 'Excelente', '2021-07-29 18:58:33');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `contratarservicio`
+--
+
+CREATE TABLE `contratarservicio` (
+  `idProductor` int(11) NOT NULL,
+  `idServicioPrestado` int(11) NOT NULL,
+  `fecha` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `contratarservicio`
+--
+
+INSERT INTO `contratarservicio` (`idProductor`, `idServicioPrestado`, `fecha`) VALUES
+(1, 1, '2021-07-06 02:52:24'),
+(1, 2, '2021-07-06 02:52:24'),
+(1, 5, '2021-07-06 02:53:07'),
+(2, 2, '2021-07-06 02:52:54'),
+(2, 3, '2021-07-06 02:52:54');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `prestador`
+--
+
+CREATE TABLE `prestador` (
+  `id` int(11) NOT NULL,
+  `idUsuario` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `prestador`
+--
+
+INSERT INTO `prestador` (`id`, `idUsuario`) VALUES
+(2, 11),
+(3, 12),
+(4, 13),
+(5, 14),
+(6, 15),
+(7, 17);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `productor`
+--
+
+CREATE TABLE `productor` (
+  `id` int(11) NOT NULL,
+  `idUsuario` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `productor`
+--
+
+INSERT INTO `productor` (`id`, `idUsuario`) VALUES
+(1, 7),
+(2, 8),
+(3, 16),
+(4, 18);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `servicio`
+--
+
+CREATE TABLE `servicio` (
+  `id` int(11) NOT NULL,
+  `idCategoria` int(11) NOT NULL,
+  `nombre` varchar(30) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `servicio`
+--
+
+INSERT INTO `servicio` (`id`, `idCategoria`, `nombre`) VALUES
+(7, 1, 'Poda'),
+(8, 2, 'Alquiler Camión'),
+(9, 3, 'Alquiler Tractor'),
+(10, 1, 'Raleo');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `servicioprestado`
+--
+
+CREATE TABLE `servicioprestado` (
+  `id` int(11) NOT NULL,
+  `idPrestador` int(11) NOT NULL,
+  `idServicio` int(11) NOT NULL,
+  `precio` decimal(10,2) NOT NULL,
+  `img` varchar(50) NOT NULL,
+  `detalle` varchar(500) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `servicioprestado`
+--
+
+INSERT INTO `servicioprestado` (`id`, `idPrestador`, `idServicio`, `precio`, `img`, `detalle`) VALUES
+(1, 2, 7, '2000.00', 'poda.jpg', 'Servicio de poda.\r\nCuadrilla de 50 personas entre 18 y 40 \r\naños. Disponibilidad horaria: Lunes a viernes 8-18hs '),
+(2, 3, 7, '2500.00', '1626157767022.jpg', 'Servicio de poda.\r\nCuadrilla de 50 personas entre 18 y 40 años. \r\n30 hombres y 20 mujeres\r\nDisponibilidad horaria: Lunes a viernes 8-18hs'),
+(3, 3, 8, '25000.00', '1626158055954.jpg', 'Camión para transportar su cosecha. 8 metros de largo. Se alquila por semana. Disponible solo para el Departamento de Tupungato '),
+(5, 2, 9, '15000.00', 'tractor.jpg', 'Tractor para realizar labores.Se alquila por el día o semanalmente. Disponible para los Departamento de La Paz, San Rafael y Gral Alvear  '),
+(7, 2, 8, '25000.00', '1626158430197.jpg', 'Camión para transportar su cosecha. 7 metros de largo. Se alquila por semana. Disponible para los Departamento de La Paz y Gral Alvear  '),
+(8, 2, 8, '25000.00', '1626158473190.jpg', 'Camión para transportar su cosecha. 5 metros de largo. Se alquila por semana o mes completo. Disponible para los Departamento de La Paz, Tupungato, San Rafael y Gral Alvear  '),
+(9, 3, 10, '1000.00', '1626726606936.jpg', 'Servicio de Raleo.\r\nCuadrilla de 50 personas entre 18 y 40 \r\naños. Disponibilidad horaria: Lunes a viernes 8-18hs '),
+(11, 3, 9, '30000.00', '1626158107064.jpg', 'Tractor para realizar labores.Se alquila por el día o semanalmente. Disponible para los Departamento de La Paz y Gral Alvear  '),
+(13, 3, 7, '2000.00', '1626157600772.jpg', 'Servicio de poda.\r\nCuadrilla de 30 personas entre 18 y 45 años. \r\nDisponibilidad horaria: Lunes a viernes 8-18hs'),
+(17, 3, 8, '25000.00', '1626161161274.jpg', 'Camión para transportar su cosecha. 10 metros de largo. Se alquila por semana o mes completo. Disponible para todo Mendoza'),
+(18, 3, 9, '15000.00', '1626161217705.jpg', 'Tractor para realizar labores.Se alquila por el día o semanalmente. Disponible para los Departamento de San Rafael y Gral Alvear  '),
+(20, 3, 9, '27000.00', '1626161896096.jpg', 'Tractor para realizar labores.Se alquila por el día o semanalmente. Disponible para los Departamento de San Martín,Las Heras, San Rafael y Gral Alvear  '),
+(22, 2, 9, '30000.00', '1626318732401.jpg', 'Tractor para realizar labores.Se alquila por el día o semanalmente. Disponible para Todo Mendoza'),
+(23, 2, 10, '2500.00', '1626318773631.jpg', 'Servicio de Raleo.\r\nCuadrilla de 50 personas entre 18 y 40 \r\naños. Disponibilidad horaria: Lunes a viernes 8-18hs '),
+(24, 2, 8, '33000.00', '1627418961781.jpg', 'Camión para transportar su cosecha. 5 metros de largo. Se alquila por semana o mes completo. Disponible para los Departamento de La Paz, San Rafael y Gral Alvear  '),
+(25, 4, 8, '2000.00', '1626355314618.jpg', 'Camión para transportar su cosecha. 5 metros de largo. Se alquila por semana o mes completo. Disponible para los Departamento de La Paz, San Rafael y Gral Alvear  '),
+(26, 4, 9, '40000.00', '1626356140321.jpg', 'Tractor para realizar labores.Se alquila por el día o semanalmente. Disponible para Todo Mendoza'),
+(27, 4, 7, '2000.00', '1626356172125.jpg', 'Servicio de poda.\r\nCuadrilla de 50 personas entre 18 y 40 años. \r\nDisponibilidad horaria: Lunes a viernes 8-18hs'),
+(30, 6, 8, '2000.00', '1626360103605.jpg', 'Camión para transportar su cosecha. 5 metros de largo. Se alquila por semana o mes completo. Disponible para los Departamento de La Paz, San Rafael y Gral Alvear  ');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `usuarios`
+--
+
+CREATE TABLE `usuarios` (
+  `id` int(11) NOT NULL,
+  `nombre` varchar(15) NOT NULL,
+  `apellido` varchar(15) NOT NULL,
+  `email` varchar(30) NOT NULL,
+  `password` varchar(15) NOT NULL,
+  `img` varchar(50) NOT NULL DEFAULT 'sinfoto.jpg',
+  `tipoUsuario` varchar(25) NOT NULL,
+  `telefono` int(10) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `usuarios`
+--
+
+INSERT INTO `usuarios` (`id`, `nombre`, `apellido`, `email`, `password`, `img`, `tipoUsuario`, `telefono`) VALUES
+(7, 'Federico', 'Pedernera', 'fede07@gmail.com', 'asdfg', '1627420621149.png', 'Productor', NULL),
+(8, 'Sofia', 'Peralta', 'sofia@gmail.com', '12345', 'sinfoto.jpg', 'Productor', NULL),
+(11, 'Matias', 'Quiroga', 'matias@gmail.com', '123qwe', '1627422118751.png', 'Prestador de Servicio', NULL),
+(12, 'Micaela', 'Arrieta', 'mica@gmail.com', '9876', 'sinfoto.jpg', 'Prestador de Servicio', NULL),
+(13, 'Lucas', 'Perez', 'lucas@gmil.com', '123', 'sinfoto.jpg', 'Prestador de Servicio', NULL),
+(14, 'fede', 'perez', 'fede@gmail.com', 'asdf', 'sinfoto.jpg', 'Prestador de Servicio', NULL),
+(15, 'Jaime', 'lopez', 'jaime@gmail.com', '123', 'sinfoto.jpg', 'Prestador de Servicio', NULL),
+(16, 'Luis', 'Suarez', 'luis@gmail.com', '12345', 'sinfoto.jpg', 'Productor', NULL),
+(17, 'Nicolas', 'Ortiz', 'nico@gmail.com', 'asdfg', 'sinfoto.jpg', 'Prestador de Servicio', NULL),
+(18, 'Pedro', 'Cruz', 'pepe@gmail.com', '123', '1627586842618.jpg', 'Productor', NULL);
+
+--
+-- Índices para tablas volcadas
+--
+
+--
+-- Indices de la tabla `categoria`
+--
+ALTER TABLE `categoria`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `comentarios`
+--
+ALTER TABLE `comentarios`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idPublicacion` (`idPublicacion`);
+
+--
+-- Indices de la tabla `contratarservicio`
+--
+ALTER TABLE `contratarservicio`
+  ADD PRIMARY KEY (`idProductor`,`idServicioPrestado`,`fecha`),
+  ADD KEY `idServicioPrestado` (`idServicioPrestado`);
+
+--
+-- Indices de la tabla `prestador`
+--
+ALTER TABLE `prestador`
+  ADD PRIMARY KEY (`id`,`idUsuario`),
+  ADD KEY `idUsuario` (`idUsuario`);
+
+--
+-- Indices de la tabla `productor`
+--
+ALTER TABLE `productor`
+  ADD PRIMARY KEY (`id`,`idUsuario`),
+  ADD KEY `idUsuario` (`idUsuario`);
+
+--
+-- Indices de la tabla `servicio`
+--
+ALTER TABLE `servicio`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idCategoria` (`idCategoria`);
+
+--
+-- Indices de la tabla `servicioprestado`
+--
+ALTER TABLE `servicioprestado`
+  ADD PRIMARY KEY (`id`,`idPrestador`,`idServicio`),
+  ADD KEY `idServicio` (`idServicio`),
+  ADD KEY `idPrestador` (`idPrestador`);
+
+--
+-- Indices de la tabla `usuarios`
+--
+ALTER TABLE `usuarios`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- AUTO_INCREMENT de las tablas volcadas
+--
+
+--
+-- AUTO_INCREMENT de la tabla `categoria`
+--
+ALTER TABLE `categoria`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT de la tabla `comentarios`
+--
+ALTER TABLE `comentarios`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- AUTO_INCREMENT de la tabla `prestador`
+--
+ALTER TABLE `prestador`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT de la tabla `productor`
+--
+ALTER TABLE `productor`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT de la tabla `servicio`
+--
+ALTER TABLE `servicio`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- AUTO_INCREMENT de la tabla `servicioprestado`
+--
+ALTER TABLE `servicioprestado`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+
+--
+-- AUTO_INCREMENT de la tabla `usuarios`
+--
+ALTER TABLE `usuarios`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+
+--
+-- Restricciones para tablas volcadas
+--
+
+--
+-- Filtros para la tabla `comentarios`
+--
+ALTER TABLE `comentarios`
+  ADD CONSTRAINT `comentarios_ibfk_1` FOREIGN KEY (`idPublicacion`) REFERENCES `servicioprestado` (`id`);
+
+--
+-- Filtros para la tabla `contratarservicio`
+--
+ALTER TABLE `contratarservicio`
+  ADD CONSTRAINT `contratarservicio_ibfk_1` FOREIGN KEY (`idProductor`) REFERENCES `productor` (`id`),
+  ADD CONSTRAINT `contratarservicio_ibfk_2` FOREIGN KEY (`idServicioPrestado`) REFERENCES `servicioprestado` (`id`);
+
+--
+-- Filtros para la tabla `prestador`
+--
+ALTER TABLE `prestador`
+  ADD CONSTRAINT `prestador_ibfk_1` FOREIGN KEY (`idUsuario`) REFERENCES `usuarios` (`id`);
+
+--
+-- Filtros para la tabla `productor`
+--
+ALTER TABLE `productor`
+  ADD CONSTRAINT `productor_ibfk_1` FOREIGN KEY (`idUsuario`) REFERENCES `usuarios` (`id`);
+
+--
+-- Filtros para la tabla `servicio`
+--
+ALTER TABLE `servicio`
+  ADD CONSTRAINT `servicio_ibfk_1` FOREIGN KEY (`idCategoria`) REFERENCES `categoria` (`id`);
+
+--
+-- Filtros para la tabla `servicioprestado`
+--
+ALTER TABLE `servicioprestado`
+  ADD CONSTRAINT `servicioprestado_ibfk_1` FOREIGN KEY (`idServicio`) REFERENCES `servicio` (`id`),
+  ADD CONSTRAINT `servicioprestado_ibfk_2` FOREIGN KEY (`idPrestador`) REFERENCES `prestador` (`id`);
+COMMIT;
